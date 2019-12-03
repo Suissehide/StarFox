@@ -26,6 +26,8 @@ button {
 
 button:focus {
     outline-style: none;
+    border: none;
+    background: transparent;
 }
 
 button::-moz-focus-inner {
@@ -50,9 +52,8 @@ button::-moz-focus-inner {
     transform: rotate(45deg);
 }
 
-
-@media screen and (max-width: 640px) {
-    .starfox > img {
-        height: 191px;
-    }
+.starfox > .img {
+    background: url("./assets/TM_Fox_Vector.png") no-repeat center;
+    background-size: 75%;
+    height: 100%;
 }
