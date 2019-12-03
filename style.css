@@ -53,7 +53,8 @@ button::-moz-focus-inner {
 }
 
 .starfox > .img {
-    background: url("./assets/TM_Fox_Vector.png") no-repeat center;
-    background-size: 75%;
+    background: url("./assets/TM_Fox_Vector_HD.png") no-repeat center;
+    background-size: 40%;
     height: 100%;
+    width: 100%;
 }
