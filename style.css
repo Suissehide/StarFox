@@ -18,10 +18,14 @@ body {
 }
 
 button {
-    outline: none;
+    outline: none !important;
     border: none;
-    background-color: transparent;
+    background: transparent;
     cursor: pointer;
+}
+
+button:focus {
+    outline-style: none;
 }
 
 button::-moz-focus-inner {
@@ -37,10 +41,18 @@ button::-moz-focus-inner {
 }
 
 .starfox {
+    padding: 0;
     height: 100%;
     width: 100%;
 }
 
 .starfox:active {
     transform: rotate(45deg);
+}
+
+
+@media screen and (max-width: 640px) {
+    .starfox > img {
+        height: 191px;
+    }
 }
