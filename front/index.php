@@ -18,9 +18,15 @@
             <button class="starfox">
                 <div class="img"></div>
             </button>
+
+
+            <div class="counter__container">
+                <div class="counter__click"><span>0</span> HIYAAA!</div>
+            </div>
         </div>
 
         <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
         <script src="script.js"></script>
     </body>
 </html>
+

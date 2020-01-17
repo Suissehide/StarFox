@@ -16,6 +16,10 @@ body {
     font-size: 16px;
     position: relative;
     touch-action: none;
+    font-family: Menlo, Andale Mono, monospace;
+    background: #f0f0f0;
+    color: #363636;
+    text-shadow: 1px 1px 0px white;
 }
 
 button {
@@ -57,4 +61,18 @@ button::-moz-focus-inner {
     background-size: 40%;
     height: 100%;
     width: 100%;
+}
+
+.counter__container {
+    z-index: -1;
+    width: 100%;
+    position: absolute;
+    display: flex;
+    justify-content: center;
+    bottom: 20px;
+}
+
+.counter__click {
+    font-size: 4em;
+    font-weight: bold;
 }
