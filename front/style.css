@@ -76,3 +76,15 @@ button::-moz-focus-inner {
     font-size: 4em;
     font-weight: bold;
 }
+
+@media (max-width: 600px) {
+    .counter__click {
+        font-size: 2em;
+    }
+}
+
+@media (max-width: 320px) {
+    .counter__click {
+        font-size: 1em;
+    }
+}

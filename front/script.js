@@ -1,33 +1,129 @@
+/*******************
+ * SCRIPT
+ *******************/
+
+
+/*******************
+ * Handle click
+ */
 var clicks = 0;
 var local_clicks = 0;
 
-$('.container').click(function() {
-    let audio = new Audio('./assets/fox0b.dsp.wav');
-    audio.play();
+var ns = 30;
+var sounds = [];
+var source = './assets/fox0b.dsp.wav';
+var id = 0;
+
+for (i = 0; i < ns; i ++)
+    sounds.push(new Audio(source));
+playSound = () => {
+    sounds[id].play();
+    ++id;
+    if (id >= ns)
+        id = 0;
+}
+
+$('.container').click(function () {
+    playSound();
 
     if (local_clicks > 25)
-        $('.starfox .img').css({'background-image': 'url("./assets/favicon.png")'})
-
+        $('.starfox .img').css({ 'background-image': 'url("./assets/favicon.png")' })
     local_clicks++;
     setClicks(clicks + local_clicks);
-    
-    //TODO - cooldown
-    conn.send(local_clicks)
-    local_clicks = 0;
 });
 
 setClicks = (val) => {
     $('.counter__click span').text(val);
 }
 
-/*** WEBSOCKET ***/
+/*******************
+ * Cooldown
+ */
+cooldown = debounce(function () {
+    conn.send(local_clicks)
+    if (local_clicks > 25) $('.starfox .img').css({ 'background-image': 'url("./assets/TM_Fox_Vector_HD.png")' })
+    local_clicks = 0;
+}, 250);
+$('.container').bind("click", cooldown);
 
-var conn = new WebSocket('ws://localhost:8080');
-conn.onopen = function(e) {
+function debounce(func, wait, immediate) {
+    var timeout;
+    return function () {
+        var context = this, args = arguments;
+        var later = function () {
+            timeout = null;
+            if (!immediate) func.apply(context, args);
+        };
+        var callNow = immediate && !timeout;
+        clearTimeout(timeout);
+        timeout = setTimeout(later, wait);
+        if (callNow) func.apply(context, args);
+    };
+};
+
+/*******************
+ * WEBSOCKET
+ */
+var conn = new WebSocket('wss://localhost:8080');
+conn.onopen = function (e) {
     console.log("Connection established!");
 };
 
-conn.onmessage = function(e) {
+conn.onmessage = function (e) {
     clicks = parseInt(e.data)
     setClicks(clicks + local_clicks);
 };
+
+
+/*******************
+ * ASCII art
+ */
+var art = `
+.oooooo..o     .                      oooooooooooo                      
+d8P'    'Y8   .o8                      '888'     '8                      
+Y88bo.      .o888oo  .oooo.   oooo d8b  888          .ooooo.  oooo    ooo
+ '"Y8888o.    888   'P  )88b  '888""8P  888oooo8    d88' '88b  '88b..8P' 
+     '"Y88b   888    .oP"888   888      888    "    888   888    Y888'   
+oo     .d8P   888 . d8(  888   888      888         888   888  .o8"'88b  
+8""88888P'    "888" 'Y888""8o d888b    o888o        'Y8bod8P' o88'   888o
+`;
+
+function getCharacters(art) {
+    var i = art.length;
+    var i_letter = 0;
+    var s = '';
+    var characters = [];
+    do {
+        i = (i + 1) % art.length;
+        var c = art[i];
+
+        var isWhitespace = /\s/.test(c);
+        if (isWhitespace) {
+            s += c;
+            continue;
+        }
+        else {
+            if (s.length > 0) {
+                c = s + c;
+                s = '';
+            }
+            i_letter = (i_letter + 1) % art.length;
+            characters.push(c);
+        }
+    }
+    while (i);
+    return characters;
+}
+
+var characters = getCharacters(art);
+
+var output = '';
+function printCharacterByIndex(characters, index, delay) {
+    if (characters[index] === undefined) return;
+    output += characters[index];
+    console.clear();
+    console.log('%c ' + output, "font-family:monospace;color: red;")
+    window.setTimeout(printCharacterByIndex.bind(null, characters, index + 1, delay), delay);
+}
+console.clear();
+printCharacterByIndex(getCharacters(art), 0, 50);
