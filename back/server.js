@@ -1,9 +1,13 @@
-var app = require('express')();
+var path = require('path');
+var express = require('express');
+var app = express();
+app.use(express.static((path.join(__dirname, '../front'))));
+
 var http = require('http').createServer(app);
 var io = require('socket.io')(http);
 
 app.get('/', (req, res) => {
-    res.sendFile((path.join(__dirname, '../front', 'index.html')));
+    res.sendFile('index.html');
 });
 
 var rq = require('./request');

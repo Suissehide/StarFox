@@ -57,8 +57,8 @@ button::-moz-focus-inner {
     transform: rotate(45deg);
 }
 
-.starfox > .img {
-    background: url("./assets/TM_Fox_Vector_HD.png") no-repeat center;
+.starfox>.img {
+    background: url("/assets/TM_Fox_Vector_HD.png") no-repeat center;
     background-size: 40%;
     height: 100%;
     width: 100%;
