@@ -1,0 +1,11 @@
+{
+    "name": "starfox",
+    "version": "0.1.0",
+    "devDependencies": {
+        "express": "*"
+    },
+    "dependencies": {
+        "mysql": "^2.18.1",
+        "socket.io": "^2.3.0"
+    }
+}

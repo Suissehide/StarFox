@@ -40,6 +40,7 @@ button::-moz-focus-inner {
 }
 
 .container {
+    position: relative;
     display: flex;
     align-items: center;
     justify-content: center;
@@ -87,4 +88,11 @@ button::-moz-focus-inner {
     .counter__click {
         font-size: 1em;
     }
+}
+
+.counter__user {
+    position: absolute;
+    left: 10px;
+    top: 10px;
+    font-size: 12px;
 }

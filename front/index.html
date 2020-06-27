@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="fr">
+    <head>
+        <meta charset="utf-8" />
+        <meta content="IE=edge" http-equiv="X-UA-Compatible" />
+        <meta name='viewport' content='width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no'/>
+
+        <meta name="description" content="Let's see how many clicks we can do together.">
+        <meta property="og:site_name" content="Click the Fox">
+        <meta property="og:url" content="https://starfox.qwetle.fr">
+        <meta property="og:title" content="Fox McCloud Clicker">
+        <meta property="og:description" content="Let's see how many clicks we can do together.">
+        <meta property="og:type" content="website">
+
+        <title>Fox McCloud Clicker</title>
+
+
+        <!-- Global site tag (gtag.js) - Google Analytics -->
+        <script async src="https://www.googletagmanager.com/gtag/js?id=UA-169370819-2"></script>
+        <script>
+            window.dataLayer = window.dataLayer || [];
+            function gtag(){dataLayer.push(arguments);}
+            gtag('js', new Date());
+
+            gtag('config', 'UA-169370819-2');
+        </script>
+
+        <link rel="icon" type="image/png" href="./assets/favicon.png"/>
+        <link rel="stylesheet" href="./style.css">
+    </head>
+
+    <body ontouchstart="">
+        <div class="container">
+            <div class="counter__user"></div>
+
+            <button class="starfox">
+                <div class="img"></div>
+            </button>
+
+            <div class="counter__container">
+                <div class="counter__click"><span>0</span> HIYAAA!</div>
+            </div>
+        </div>
+
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+        <script src="http://localhost:8080/socket.io/socket.io.js" type="text/javascript"></script>
+        <script src="./js/script.js" type="text/javascript"></script>
+    </body>
+</html>
+
