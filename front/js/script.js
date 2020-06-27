@@ -142,4 +142,4 @@ function printCharacterByIndex(characters, index, delay) {
     window.setTimeout(printCharacterByIndex.bind(null, characters, index + 1, delay), delay);
 }
 console.clear();
-// printCharacterByIndex(getCharacters(art), 0, 50);
+printCharacterByIndex(getCharacters(art), 0, 50);
