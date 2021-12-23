@@ -27,7 +27,7 @@ io.on('connection', (socket) => {
     })
 
     if (!init) {
-        rq.con.query('SELECT click FROM abacus WHERE id = 0')
+        rq.con.query('SELECT click FROM abacus LIMIT 1')
             .on('result', function (data) {
                 db_clicks = data['click'];
             })
@@ -39,9 +39,9 @@ io.on('connection', (socket) => {
         socket.emit('initial clicks', db_clicks);
     }
 
-    socket.on('click', (clicks) => {
-        rq.addClicks(clicks);
-        db_clicks += clicks;
+    socket.on('click', () => {
+        rq.addClicks(1);
+        db_clicks += 1;
         io.emit('update', db_clicks);
     });
 });

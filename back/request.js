@@ -1,10 +1,15 @@
 /* SQL */
 var mysql = require('mysql');
+const dotenv = require("dotenv");
+
+dotenv.config({ path: __dirname + '/.env.local' });
+
 var con = mysql.createConnection({
-    host: "localhost",
-    user: "root",
-    password: "",
-    database: "starfox"
+    host: process.env.DB_HOST,
+    port: process.env.DB_PORT,
+    user: process.env.DB_USER,
+    password: process.env.DB_PASSWORD,
+    database: process.env.DB_NAME
 });
 
 con.connect((err) => {
@@ -16,7 +21,7 @@ con.connect((err) => {
 });
 
 const addClicks = function (clicks) {
-    con.query('UPDATE abacus SET click = click + ? WHERE id = 0', clicks, (err, rows) => {
+    con.query('UPDATE abacus SET click = click + ? LIMIT 1', clicks, (err, rows) => {
         if (err) throw err;
     });
 };
