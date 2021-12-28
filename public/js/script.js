@@ -22,7 +22,7 @@ let text = 'hiyaaa';
 /*******************
 * WEBSOCKET
 */
-const socket = io.connect('http://localhost:8080');
+const socket = io.connect();
 
 socket.on('users connected', function (users) {
     updateUser(users);
