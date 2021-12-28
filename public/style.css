@@ -1,0 +1,151 @@
+* {
+    box-sizing: border-box;
+    -webkit-tap-highlight-color: rgba(0, 0, 0, 0);
+    -moz-tap-highlight-color: rgba(0, 0, 0, 0);
+}
+
+html {
+    height: 100%;
+    overflow: hidden;
+}
+
+body {
+    margin: 0;
+    padding: 0;
+    height: 100%;
+    font-size: 16px;
+    position: relative;
+    touch-action: none;
+    font-family: Menlo, Andale Mono, monospace;
+    background: #f0f0f0;
+    color: #363636;
+    text-shadow: 1px 1px 0px white;
+}
+
+button {
+    outline: none !important;
+    border: none;
+    background: transparent;
+    cursor: pointer;
+}
+
+button:focus {
+    outline-style: none;
+    border: none;
+    background: transparent;
+}
+
+button::-moz-focus-inner {
+    border: 0;
+}
+
+.container {
+    position: relative;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: 100%;
+}
+
+.starfox {
+    padding: 0;
+    height: 100%;
+    width: 100%;
+}
+
+.starfox>.img {
+    background: url("../assets/images/Fox.png") no-repeat center;
+    background-size: contain;
+    height: 400px;
+}
+
+.sonic {
+    position: absolute;
+    background: url("assets/images/Sonic.png") center no-repeat;
+    background-size: contain;
+    height: 200px;
+    width: 200px;
+    left: 100%;
+    bottom: -15px;
+}
+
+.sonic span {
+    position: absolute;
+    top: -40px;
+    right: 0;
+    transform: rotate(30deg);
+    font-size: 18px;
+    font-weight: bold;
+}
+
+.arrow-key-container {
+    display: inline-block;
+    text-align: center;
+    transform: translate3d(0, 0, 0);
+}
+
+.arrow-key {
+    user-select: none;
+    cursor: pointer;
+    width: 100px;
+    height: 100px;
+    text-align: center;
+    line-height: 100px;
+    background: grey;
+    color: white;
+    font-size: 50px;
+    border-right: 10px solid #4d4d4d;
+    border-bottom: 10px solid #4d4d4d;
+    border-left: 10px solid #5a5a5a;
+    border-top: 10px solid #676767;
+    display: inline-block;
+    margin: 5px;
+    transition: all .05s linear;
+}
+
+.arrow-key:active {
+    border-bottom: 8px solid darken(grey, 20);
+    text-shadow: 0 0 10px white, 0 0 10px white, 0 0 20px white;
+    transform: translate(0, 2px);
+}
+
+.pressed {
+    border-bottom: 8px solid darken(grey, 20);
+    text-shadow: 0 0 10px white;
+    transform: translate(0, 2px);
+}
+
+
+.counter__container {
+    z-index: -1;
+    width: 100%;
+    position: absolute;
+    display: flex;
+    justify-content: center;
+    bottom: 20px;
+}
+
+.counter__click {
+    font-size: 4em;
+    font-weight: bold;
+}
+
+@media (max-width: 600px) {
+    .counter__click {
+        font-size: 2em;
+    }
+}
+
+@media (max-width: 320px) {
+    .counter__click {
+        font-size: 1em;
+    }
+}
+
+.counter__user {
+    user-select: none;
+    position: absolute;
+    left: 10px;
+    top: 10px;
+    font-size: 14px;
+}
