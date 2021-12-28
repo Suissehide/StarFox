@@ -311,6 +311,10 @@ button::-moz-focus-inner {
     .counter__click {
         font-size: 1.5em;
     }
+
+    .counter__user {
+        font-size: 10px;
+    }
 }
 
 @media (max-width: 320px) {

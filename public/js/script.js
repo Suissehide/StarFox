@@ -206,6 +206,7 @@ getClickedKey = (e, state) => {
     else if ($(e.target).hasClass('js-b'))
         state ? $('.arrow-key.js-b').addClass('pressed') : $('.arrow-key.js-b').removeClass('pressed');
 }
+
 /* Kirby
 ========================================================================== */
 let kirbyScale = 1;
@@ -235,7 +236,6 @@ updateKirbyDown = (e) => {
     }
 };
 
-
 /* Mario
 ========================================================================== */
 updateMarioUp = (e) => {
@@ -264,7 +264,6 @@ updateMarioDown = (e) => {
         });
     }
 };
-
 
 /* Starfox
 ========================================================================== */
@@ -607,7 +606,7 @@ isMobileOrTablet = () => {
 };
 
 if (isMobileOrTablet()) {
-    $('.arrow-key-container').hide();
+    $('.arrow-key-container, .banana-btn').hide();
 }
 
 /* Sidebar
