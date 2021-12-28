@@ -58,6 +58,7 @@ button::-moz-focus-inner {
     padding: 10px 10px 10px 15px;
     width: 100%;
     display: flex;
+    flex-flow: wrap;
     justify-content: space-between;
     align-items: center;
     transition: 0.2s cubic-bezier(0.075, 0.82, 0.165, 1) 0.2s;
@@ -71,10 +72,12 @@ button::-moz-focus-inner {
 .counter__user {
     user-select: none;
     font-size: 14px;
+    margin-bottom: 10px;
 }
 
 .flex {
     display: flex;
+    flex-flow: wrap;
     gap: 10px;
 }
 
