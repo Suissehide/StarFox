@@ -3,6 +3,7 @@
  *******************/
 
 const dispatcher = $(window)
+const windowWidth = dispatcher.width();
 const KEYCODE_LEFT = 37 //useful keycode
 const KEYCODE_UP = 38 //useful keycode
 const KEYCODE_RIGHT = 39 //useful keycode
@@ -16,7 +17,7 @@ var localClicks = 0;
 var currentClicks = 0;
 var faceLeft = true;
 var lookAt = [false, false, false, false]; //left right up down
-var pos = ($(window).width() / 2) - 200;
+var pos = (windowWidth / 2) - 200;
 let text = 'hiyaaa';
 
 /*******************
@@ -79,7 +80,7 @@ loadSound = () => {
         if (item.type === 'sound') {
             sounds[item.id] = new Audio(assetsPath + item.src);
             sounds[item.id].volume = 1;
-            sounds[item.id].muted = true;
+            // sounds[item.id].muted = true;
             sounds[item.id].load();
         }
     });
@@ -100,7 +101,7 @@ init = () => {
 }
 
 playSound = (id, clone) => {
-    sounds[id].muted = false;
+    // sounds[id].muted = false;
     if (init)
         clone ? sounds[id].cloneNode(true).play() : sounds[id].play();
 }
@@ -351,7 +352,7 @@ createText = () => {
 ========================================================================== */
 launchSonicAnimation = () => {
     let id = null;
-    let posSonic = $(window).width();
+    let posSonic = windowWidth;
     clearInterval(id);
     id = setInterval(frame, 10);
     function frame() {
@@ -380,8 +381,8 @@ $('.banana-btn').on('click', function () {
         x = 0,
         y = 0,
         rotation = 0;
-    const speed = Math.sqrt((g * ($(window).width() + 100)) / (Math.sin(2 * angle)));
-    const endX = ($(window).width() + 100) * 0.8;
+    const speed = Math.sqrt((g * (windowWidth + 100)) / (Math.sin(2 * angle)));
+    const endX = (windowWidth + 100) * 0.8;
     const endY = ((-0.5 * g * Math.pow(endX, 2)) / (Math.pow(speed, 2) * Math.pow(Math.cos(angle), 2))) + (endX * Math.tan(angle));
     clearInterval(id);
     id = setInterval(frameBanana, 10);
@@ -468,7 +469,7 @@ movementLoop = () => {
     }
     if (lookAt[1]) {
         pos += 25;
-        if (pos >= $(window).width() - 375) pos = $(window).width() - 375;
+        if (pos >= windowWidth - 375) pos = windowWidth - 375;
     } else if (lookAt[0]) {
         pos -= 25;
         if (pos <= -25) pos = -25;
@@ -678,5 +679,5 @@ function printCharacterByIndex(characters, index, delay) {
     console.log('%c ' + output, "font-family:monospace;color: red;")
     window.setTimeout(printCharacterByIndex.bind(null, characters, index + 1, delay), delay);
 }
-console.clear();
-printCharacterByIndex(getCharacters(art), 0, 50);
+// console.clear();
+// printCharacterByIndex(getCharacters(art), 0, 50);
