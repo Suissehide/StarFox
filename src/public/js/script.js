@@ -46,12 +46,12 @@ emitClicks = () => {
 /*******************
  * Handle click
  */
-let assetsPath = 'assets/';
+let assetsPath = '../assets/';
 let manifest = [
-    {id: "hiyaaa", type: 'sound', src: "sounds/hiyaaa.mp3"},
-    {id: "yahoo", type: 'sound', src: "sounds/yahoo.mp3"},
-    {id: "poyo", type: 'sound', src: "sounds/poyo.mp3"},
-    {id: "key", type: 'sound', src: "sounds/asmr-keyboard.mp3"},
+    {id: "hiyaaa", type: 'sound', src: 'sounds/hiyaaa.mp3'},
+    {id: "yahoo", type: 'sound', src: 'sounds/yahoo.mp3'},
+    {id: "poyo", type: 'sound', src: 'sounds/poyo.mp3'},
+    {id: "key", type: 'sound', src: 'sounds/asmr-keyboard.mp3'},
 
     {id: 'fox', type: 'image', src: 'images/Fox.png'},
     {id: 'foxPistol1', type: 'image', src: 'images/FoxPistol1.png'},
