@@ -3,6 +3,7 @@ version: '3.8'
 services:
 
      starfox-backend:
+       container_name: starfox-backend
        platform: linux/amd64
        build:
          context: ..
@@ -34,6 +35,7 @@ services:
          - starfox-db
 
      starfox-db:
+       container_name: starfox-db
        build:
          context: ./database
          dockerfile: ./Dockerfile
