@@ -2,65 +2,65 @@ version: '3.8'
 
 services:
 
-     starfox-backend:
-       container_name: starfox-backend
-       platform: linux/amd64
-       build:
-         context: ..
-         dockerfile: deploy/app/Dockerfile
-         args:
-           NODE_VERSION: ${NODE_VERSION}
-           NPM_VERSION: ${NPM_VERSION}
-         target: app
-       image: 'starfox-backend:latest'
-       ports:
-         - '${PORT}:${PORT}'
-       healthcheck:
-         test: curl -f -s -o /dev/null http://localhost:${PORT}/ && echo OK
-         retries: 3
-         timeout: 3s
-       environment:
-         - LOG_LEVEL
-         - NODE_ENV
-         - NODE_TLS_REJECT_UNAUTHORIZED
-         - PORT
-       labels:
-         - "traefik.enable=true"
-         ## HTTP Routers
-         - "traefik.http.routers.starfox-app.entrypoints=https"
-         - "traefik.http.routers.starfox-app.rule=Host(`${TRAEFIK_STARFOX_BACKEND_VIRTUAL_HOST:-starfox-backend.local}`)"
-         ## HTTP Services
-         - "traefik.http.routers.starfox-rtr.service=starfox-svc"
-         - "traefik.http.services.starfox-svc.loadbalancer.server.port=8081"
-       network_mode: bridge
-       restart: unless-stopped
-       depends_on:
-         - starfox-db
+  starfox-backend:
+    container_name: starfox-backend
+    platform: linux/amd64
+    build:
+      context: ..
+      dockerfile: deploy/app/Dockerfile
+      args:
+        NODE_VERSION: ${NODE_VERSION}
+        NPM_VERSION: ${NPM_VERSION}
+      target: app
+    image: 'starfox-backend:latest'
+    ports:
+      - '${PORT}:${PORT}'
+    healthcheck:
+      test: curl -f -s -o /dev/null http://localhost:${PORT}/ && echo OK
+      retries: 3
+      timeout: 3s
+    environment:
+      - LOG_LEVEL
+      - NODE_ENV
+      - NODE_TLS_REJECT_UNAUTHORIZED
+      - PORT
+    labels:
+      - "traefik.enable=true"
+      ## HTTP Routers
+      - "traefik.http.routers.starfox-app.entrypoints=https"
+      - "traefik.http.routers.starfox-app.rule=Host(`${TRAEFIK_STARFOX_BACKEND_VIRTUAL_HOST:-starfox-backend.local}`)"
+      ## HTTP Services
+      - "traefik.http.routers.starfox-rtr.service=starfox-svc"
+      - "traefik.http.services.starfox-svc.loadbalancer.server.port=8081"
+    network_mode: bridge
+    restart: unless-stopped
+    depends_on:
+      - starfox-db
 
-     starfox-db:
-       container_name: starfox-db
-       build:
-         context: ./database
-         dockerfile: ./Dockerfile
-       image: 'starfox-db:latest'
-       ports:
-         - '${DB_PORT}:${DB_PORT}'
-       healthcheck:
-         test: mysqladmin ping --silent
-         retries: 3
-         timeout: 3s
-       environment:
-         - ACCEPT_EULA=Y
-         - PID=Developer
-         - MARIADB_ROOT_PASSWORD=${MARIADB_ROOT_PASSWORD}
-         - MARIADB_DATABASE=${DB_NAME}
-         - MARIADB_PORT=${DB_PORT}
-       volumes:
-#         - $DOCKERDIR/appdata/mariadb/data:/config
-         - dbdata:/var/lib/mysql
-         - ./database/dump.sql:/docker-entrypoint-initdb.d/dump.sql
-       network_mode: bridge
-       restart: unless-stopped
+  starfox-db:
+    container_name: starfox-db
+    build:
+      context: ./database
+      dockerfile: ./Dockerfile
+    image: 'starfox-db:latest'
+    ports:
+      - '${DB_PORT}:${DB_PORT}'
+    healthcheck:
+      test: mysqladmin ping --silent
+      retries: 3
+      timeout: 3s
+    environment:
+      - ACCEPT_EULA=Y
+      - PID=Developer
+      - MARIADB_ROOT_PASSWORD=${MARIADB_ROOT_PASSWORD}
+      - MARIADB_DATABASE=${DB_NAME}
+      - MARIADB_PORT=${DB_PORT}
+    volumes:
+      # - $DOCKERDIR/appdata/mariadb/data:/config
+      - dbdata:/var/lib/mysql
+      - ./database/dump.sql:/docker-entrypoint-initdb.d/dump.sql
+    network_mode: bridge
+    restart: unless-stopped
 
 #Volumes
 volumes:

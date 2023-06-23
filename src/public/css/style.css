@@ -1,4 +1,4 @@
-@import url('all.min.css');
+@import url('./all.min.css');
 
 * {
     box-sizing: border-box;
@@ -113,21 +113,21 @@ button::-moz-focus-inner {
 }
 
 .fa-mario {
-    background: url('Mario.png') center no-repeat;
+    background: url('../assets/images/Mario.png') center no-repeat;
     background-size: contain;
     height: 100%;
     width: 25px;
 }
 
 .fa-starfox {
-    background: url('Fox.png') center no-repeat;
+    background: url('../assets/images/Fox.png') center no-repeat;
     background-size: contain;
     height: 100%;
     width: 25px;
 }
 
 .fa-kirby {
-    background: url('Kirby.png') center no-repeat;
+    background: url('../assets/images/Kirby.png') center no-repeat;
     background-size: contain;
     height: 100%;
     width: 25px;
@@ -207,7 +207,7 @@ button::-moz-focus-inner {
 
 .sonic {
     position: absolute;
-    background: url("Sonic.png") center no-repeat;
+    background: url("../assets/images/Sonic.png") center no-repeat;
     background-size: contain;
     height: 400px;
     width: 400px;
@@ -226,7 +226,7 @@ button::-moz-focus-inner {
 
 .donkeyKong {
     position: absolute;
-    background: url("DonkeyKong.png") center no-repeat;
+    background: url("../assets/images/DonkeyKong.png") center no-repeat;
     background-size: contain;
     height: 400px;
     width: 400px;
@@ -236,7 +236,7 @@ button::-moz-focus-inner {
 
 .banana {
     position: absolute;
-    background: url("Banana.png") center no-repeat;
+    background: url("../assets/images/Banana.png") center no-repeat;
     background-size: contain;
     height: 100px;
     width: 100px;
@@ -328,7 +328,7 @@ button::-moz-focus-inner {
 }
 
 .banana-icon {
-    background: url('Banana.png') center no-repeat;
+    background: url('../assets/images/Banana.png') center no-repeat;
     background-size: contain;
     height: 100%;
     width: 25px;
