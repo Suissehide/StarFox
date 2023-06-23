@@ -1,5 +1,6 @@
 @import url('./all.min.css');
 
+
 * {
     box-sizing: border-box;
     -webkit-tap-highlight-color: rgba(0, 0, 0, 0);
@@ -170,12 +171,16 @@ button::-moz-focus-inner {
     font-size: 2em;
     font-weight: bold;
     text-shadow: 1px 1px 0 #f0f0f0;
+    width: 100%;
 }
 
 .character {
-    padding: 0;
+    padding: 56px 0 0;
     height: 100%;
     width: 100%;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
 }
 
 .img__container {
@@ -248,6 +253,7 @@ button::-moz-focus-inner {
     display: flex;
     flex-direction: column;
     align-items: center;
+    width: 100%;
 }
 
 .arrow-key-container .row {
@@ -275,6 +281,14 @@ button::-moz-focus-inner {
     transition: all .05s linear;
 }
 
+@media (max-height: 800px) {
+    .arrow-key {
+        width: 45px;
+        height: 45px;
+        font-size: 18px;
+    }
+}
+
 .pressed {
     text-shadow: 0 0 10px white;
     transform: translate(0, 2px);
@@ -287,10 +301,9 @@ button::-moz-focus-inner {
 .counter__container {
     z-index: -1;
     width: 100%;
-    position: absolute;
     display: flex;
     justify-content: center;
-    bottom: 20px;
+    margin: 20px 0;
 }
 
 .counter__click {

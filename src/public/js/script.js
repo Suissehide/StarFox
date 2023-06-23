@@ -79,6 +79,7 @@ loadSound = () => {
     manifest.forEach(function (item) {
         if (item.type === 'sound') {
             sounds[item.id] = new Audio(assetsPath + item.src);
+            sounds[item.id].preload = 'auto';
             sounds[item.id].volume = 1;
             // sounds[item.id].muted = true;
             sounds[item.id].load();
