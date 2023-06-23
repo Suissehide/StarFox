@@ -16,7 +16,7 @@ services:
        ports:
          - '${PORT}:${PORT}'
        healthcheck:
-         test: curl -f -s -o /dev/null http://localhost:${PORT}/health && echo OK
+         test: curl -f -s -o /dev/null http://localhost:${PORT}/ && echo OK
          retries: 3
          timeout: 3s
        environment:
@@ -27,8 +27,11 @@ services:
        labels:
          - "traefik.enable=true"
          ## HTTP Routers
-         - "traefik.http.routers.app.entrypoints=https"
-         - "traefik.http.routers.app.rule=Host(`${TRAEFIK_STARFOX_BACKEND_VIRTUAL_HOST:-starfox-backend.local}`)"
+         - "traefik.http.routers.starfox-app.entrypoints=https"
+         - "traefik.http.routers.starfox-app.rule=Host(`${TRAEFIK_STARFOX_BACKEND_VIRTUAL_HOST:-starfox-backend.local}`)"
+         ## HTTP Services
+         - "traefik.http.routers.starfox-rtr.service=starfox-svc"
+         - "traefik.http.services.starfox-svc.loadbalancer.server.port=8081"
        network_mode: bridge
        restart: unless-stopped
        depends_on:
