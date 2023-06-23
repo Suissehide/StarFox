@@ -1,13 +1,16 @@
 /* SQL */
-var mysql = require('mysql');
+const mysql = require('mysql');
 const dotenv = require("dotenv");
+const path = require("path");
 
-dotenv.config({ path: __dirname + '/.env.local' });
+dotenv.config({path: path.join(__dirname, '..', '.env')});
 
-var con = mysql.createConnection({
+console.log(process.env.DB_HOST, process.env.DB_PORT, process.env.DB_USERNAME, process.env.DB_PASSWORD, process.env.DB_NAME);
+
+const con = mysql.createConnection({
     host: process.env.DB_HOST,
     port: process.env.DB_PORT,
-    user: process.env.DB_USER,
+    user: process.env.DB_USERNAME,
     password: process.env.DB_PASSWORD,
     database: process.env.DB_NAME
 });
@@ -21,13 +24,13 @@ con.connect((err) => {
 });
 
 const addClicks = function (clicks) {
-    con.query('UPDATE abacus SET click = click + ? LIMIT 1', clicks, (err, rows) => {
+    con.query('UPDATE abacus SET click = click + ? LIMIT 1', clicks, (err, _) => {
         if (err) throw err;
     });
 };
 
 const setClicks = function (clicks) {
-    con.query('UPDATE abacus SET click = ? LIMIT 1', clicks, (err, rows) => {
+    con.query('UPDATE abacus SET click = ? LIMIT 1', clicks, (err, _) => {
         if (err) throw err;
     });
 };

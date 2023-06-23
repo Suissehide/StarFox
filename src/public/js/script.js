@@ -11,18 +11,18 @@ const KEYCODE_DOWN = 40 //useful keycode
 const KEYCODE_A = 65 //useful keycode
 const KEYCODE_B = 66 //useful keycode
 
-var init = false;
-var clicks = 0;
-var localClicks = 0;
-var currentClicks = 0;
-var faceLeft = true;
-var lookAt = [false, false, false, false]; //left right up down
-var pos = (windowWidth / 2) - 200;
+let init = false;
+let clicks = 0;
+let localClicks = 0;
+let currentClicks = 0;
+let faceLeft = true;
+let lookAt = [false, false, false, false]; //left right up down
+let pos = (windowWidth / 2) - 200;
 let text = 'hiyaaa';
 
 /*******************
-* WEBSOCKET
-*/
+ * WEBSOCKET
+ */
 const socket = io.connect();
 
 socket.on('users connected', function (users) {
@@ -48,35 +48,35 @@ emitClicks = () => {
  */
 let assetsPath = 'assets/';
 let manifest = [
-    { id: "hiyaaa", type: 'sound', src: "sounds/hiyaaa.mp3" },
-    { id: "yahoo", type: 'sound', src: "sounds/yahoo.mp3" },
-    { id: "poyo", type: 'sound', src: "sounds/poyo.mp3" },
-    { id: "key", type: 'sound', src: "sounds/asmr-keyboard.mp3" },
+    {id: "hiyaaa", type: 'sound', src: "sounds/hiyaaa.mp3"},
+    {id: "yahoo", type: 'sound', src: "sounds/yahoo.mp3"},
+    {id: "poyo", type: 'sound', src: "sounds/poyo.mp3"},
+    {id: "key", type: 'sound', src: "sounds/asmr-keyboard.mp3"},
 
-    { id: 'fox', type: 'image', src: 'images/Fox.png' },
-    { id: 'foxPistol1', type: 'image', src: 'images/FoxPistol1.png' },
-    { id: 'foxPistol2', type: 'image', src: 'images/FoxPistol2.png' },
-    { id: 'foxScream', type: 'image', src: 'images/FoxScream.png' },
-    { id: 'foxShield1', type: 'image', src: 'images/FoxShield1.png' },
-    { id: 'foxShield2', type: 'image', src: 'images/FoxShield2.png' },
-    { id: 'foxRun', type: 'image', src: 'images/FoxRun.png' },
-    { id: 'foxKick', type: 'image', src: 'images/FoxKick.png' },
+    {id: 'fox', type: 'image', src: 'images/Fox.png'},
+    {id: 'foxPistol1', type: 'image', src: 'images/FoxPistol1.png'},
+    {id: 'foxPistol2', type: 'image', src: 'images/FoxPistol2.png'},
+    {id: 'foxScream', type: 'image', src: 'images/FoxScream.png'},
+    {id: 'foxShield1', type: 'image', src: 'images/FoxShield1.png'},
+    {id: 'foxShield2', type: 'image', src: 'images/FoxShield2.png'},
+    {id: 'foxRun', type: 'image', src: 'images/FoxRun.png'},
+    {id: 'foxKick', type: 'image', src: 'images/FoxKick.png'},
 
-    { id: 'kirby', type: 'image', src: 'images/Kirby.png' },
-    { id: 'kirbyInhale', type: 'image', src: 'images/KirbyInhale.png' },
-    { id: 'kirbyPoyo', type: 'image', src: 'images/KirbyPoyo.png' },
-    { id: 'kirbo', type: 'image', src: 'images/Kirbo.gif' },
+    {id: 'kirby', type: 'image', src: 'images/Kirby.png'},
+    {id: 'kirbyInhale', type: 'image', src: 'images/KirbyInhale.png'},
+    {id: 'kirbyPoyo', type: 'image', src: 'images/KirbyPoyo.png'},
+    {id: 'kirbo', type: 'image', src: 'images/Kirbo.gif'},
 
-    { id: 'mario', type: 'image', src: 'images/Mario.png' },
-    { id: 'marioJump', type: 'image', src: 'images/MarioJump.png' },
-    { id: 'marioDown', type: 'image', src: 'images/MarioDown.png' },
-    { id: 'marioYahoo', type: 'image', src: 'images/MarioYahoo.png' },
+    {id: 'mario', type: 'image', src: 'images/Mario.png'},
+    {id: 'marioJump', type: 'image', src: 'images/MarioJump.png'},
+    {id: 'marioDown', type: 'image', src: 'images/MarioDown.png'},
+    {id: 'marioYahoo', type: 'image', src: 'images/MarioYahoo.png'},
 ]
 let sounds = [];
 let lastKey;
 
 loadSound = () => {
-    manifest.forEach(function (item, index) {
+    manifest.forEach(function (item) {
         if (item.type === 'sound') {
             sounds[item.id] = new Audio(assetsPath + item.src);
             sounds[item.id].volume = 1;
@@ -112,17 +112,19 @@ stopSound = (id) => {
 }
 
 isPlaying = (id) => {
-    if (sounds[id].paused && !sounds[id].currentTime > 0)
-        return false;
-    return true;
+    return !(sounds[id].paused && !sounds[id].currentTime > 0);
+
 }
 
 dispatcher.bind('keyup', handleKeyUp);
 dispatcher.bind('keydown', handleKeyDown);
 
-$('.container').on('pointerup', function (e) { handleKeyUp(e) })
-$('.container').on('pointerdown', function (e) { handleKeyDown(e) })
-
+$('.container').on('pointerup', function (e) {
+    handleKeyUp(e)
+})
+$('.container').on('pointerdown', function (e) {
+    handleKeyDown(e)
+})
 
 
 function randomFromInterval(min, max) {
@@ -134,9 +136,9 @@ function handleKeyUp(e) {
     if (key) key.classList.remove('pressed');
     getClickedKey(e, false);
 
-    if (e.type != "pointerdown" && e.keyCode == lastKey) lastKey = 0;
+    if (e.type !== "pointerdown" && e.keyCode === lastKey) lastKey = 0;
 
-    if (e.keyCode == KEYCODE_LEFT || e.keyCode == KEYCODE_RIGHT ||
+    if (e.keyCode === KEYCODE_LEFT || e.keyCode === KEYCODE_RIGHT ||
         $(e.target).hasClass('js-left') || $(e.target).hasClass('js-right')) {
         arrowUp(e);
     } else {
@@ -162,7 +164,7 @@ function handleKeyDown(e) {
     if (key) key.classList.add('pressed');
     getClickedKey(e, true);
 
-    if (e.type != "pointerdown" && e.keyCode == lastKey) return;
+    if (e.type !== "pointerdown" && e.keyCode === lastKey) return;
     lastKey = e.keyCode;
     emitClicks();
     currentClicks++;
@@ -172,7 +174,7 @@ function handleKeyDown(e) {
     localStorage.setItem('clicks', localClicks);
     cooldown();
 
-    if (e.keyCode == KEYCODE_LEFT || e.keyCode == KEYCODE_RIGHT ||
+    if (e.keyCode === KEYCODE_LEFT || e.keyCode === KEYCODE_RIGHT ||
         $(e.target).hasClass('js-left') || $(e.target).hasClass('js-right')) {
         arrowDown(e);
     } else {
@@ -212,7 +214,7 @@ getClickedKey = (e, state) => {
 ========================================================================== */
 let kirbyScale = 1;
 
-updateKirbyUp = (e) => {
+updateKirbyUp = () => {
     if (currentClicks > 25) {
         setImage('.character .img', 'kirbo');
     } else {
@@ -224,14 +226,14 @@ updateKirbyDown = (e) => {
     playSound('poyo', true);
     if (currentClicks > 25) {
         setImage('.character .img', 'kirbo');
-    } else if (e.keyCode == KEYCODE_A || $(e.target).hasClass('js-a')) {
+    } else if (e.keyCode === KEYCODE_A || $(e.target).hasClass('js-a')) {
         setImage('.character .img', 'kirbyInhale');
         kirbyScale += 0.1;
-        $('.character .img').css({ transform: 'scale(' + kirbyScale + ')' })
-    } else if (e.keyCode == KEYCODE_B || $(e.target).hasClass('js-b')) {
+        $('.character .img').css({transform: 'scale(' + kirbyScale + ')'})
+    } else if (e.keyCode === KEYCODE_B || $(e.target).hasClass('js-b')) {
         setImage('.character .img', 'kirbyInhale');
         kirbyScale -= 0.1;
-        $('.character .img').css({ transform: 'scale(' + kirbyScale + ')' })
+        $('.character .img').css({transform: 'scale(' + kirbyScale + ')'})
     } else {
         setImage('.character .img', 'kirbyPoyo');
     }
@@ -239,7 +241,7 @@ updateKirbyDown = (e) => {
 
 /* Mario
 ========================================================================== */
-updateMarioUp = (e) => {
+updateMarioUp = () => {
     setImage('.character .img', 'mario');
     $('.character .img').css({
         'transform': 'translate(0, 0px)',
@@ -248,12 +250,12 @@ updateMarioUp = (e) => {
 
 updateMarioDown = (e) => {
     playSound('yahoo', true);
-    if (e.keyCode == KEYCODE_UP || $(e.target).hasClass('js-up')) {
+    if (e.keyCode === KEYCODE_UP || $(e.target).hasClass('js-up')) {
         setImage('.character .img', 'marioJump');
         $('.character .img').css({
             'transform': 'translate(0, ' + randomFromInterval(-30, -45) + 'px)',
         });
-    } else if (e.keyCode == KEYCODE_DOWN || $(e.target).hasClass('js-down')) {
+    } else if (e.keyCode === KEYCODE_DOWN || $(e.target).hasClass('js-down')) {
         setImage('.character .img', 'marioDown');
         $('.character .img').css({
             'transform': 'translate(0, ' + randomFromInterval(30, 45) + 'px)',
@@ -269,7 +271,7 @@ updateMarioDown = (e) => {
 /* Starfox
 ========================================================================== */
 updateFoxUp = (e) => {
-    if (e.keyCode == KEYCODE_DOWN || $(e.target).hasClass('js-down')) lookAt[3] = false;
+    if (e.keyCode === KEYCODE_DOWN || $(e.target).hasClass('js-down')) lookAt[3] = false;
     if (currentClicks > 25) {
         setImage('.character .img', 'foxPistol2');
         $('.character .img').css({
@@ -288,9 +290,9 @@ updateFoxDown = (e) => {
         $('.character .img').css({
             'transform': 'translate(0, ' + randomFromInterval(5, 20) + 'px)',
         });
-    } else if (e.keyCode == KEYCODE_UP || $(e.target).hasClass('js-up')) {
+    } else if (e.keyCode === KEYCODE_UP || $(e.target).hasClass('js-up')) {
         setImage('.character .img', 'foxKick');
-    } else if (e.keyCode == KEYCODE_DOWN || $(e.target).hasClass('js-down')) {
+    } else if (e.keyCode === KEYCODE_DOWN || $(e.target).hasClass('js-down')) {
         lookAt[3] = true;
     } else {
         setImage('.character .img', 'foxScream');
@@ -300,7 +302,7 @@ updateFoxDown = (e) => {
 /* Tools
 ========================================================================== */
 setImage = (element, imageId) => {
-    $(element).css({ 'background-image': 'url("' + getImage(imageId) + '")' });
+    $(element).css({'background-image': 'url("' + getImage(imageId) + '")'});
 }
 
 formatNumber = (x) => {
@@ -355,13 +357,14 @@ launchSonicAnimation = () => {
     let posSonic = windowWidth;
     clearInterval(id);
     id = setInterval(frame, 10);
+
     function frame() {
         if (posSonic <= -200) {
             clearInterval(id);
-            $('.sonic').css({ left: '100%' });
+            $('.sonic').css({left: '100%'});
         } else {
             posSonic -= 30;
-            $('.sonic').css({ left: posSonic + 'px' });
+            $('.sonic').css({left: posSonic + 'px'});
         }
     }
 }
@@ -375,9 +378,9 @@ $('.banana-btn').on('click', function () {
     bananeDone = false;
     const g = 0.2;
     let id = null,
-        peak = false;
-    time = 0;
-    angle = 45,
+        peak = false,
+        time = 0,
+        angle = 45,
         x = 0,
         y = 0,
         rotation = 0;
@@ -386,6 +389,7 @@ $('.banana-btn').on('click', function () {
     const endY = ((-0.5 * g * Math.pow(endX, 2)) / (Math.pow(speed, 2) * Math.pow(Math.cos(angle), 2))) + (endX * Math.tan(angle));
     clearInterval(id);
     id = setInterval(frameBanana, 10);
+
     function frameBanana() {
         $('.banana').css({
             left: x + 'px',
@@ -409,6 +413,7 @@ $('.banana-btn').on('click', function () {
         time += 1;
         rotation += 5;
     }
+
     releaseDonkeyKong(endX - 400, endY - 200);
 });
 
@@ -417,9 +422,10 @@ releaseDonkeyKong = (posX, posY) => {
         banana = false,
         rotation = 0;
     let donkeyKongY = -400;
-    $('.donkeyKong').css({ left: posX });
+    $('.donkeyKong').css({left: posX});
     clearInterval(id);
     id = setInterval(frameDonkeyKong, 10);
+
     function frameDonkeyKong() {
         $('.donkeyKong').css({
             bottom: donkeyKongY + 'px',
@@ -427,7 +433,7 @@ releaseDonkeyKong = (posX, posY) => {
         });
         if (donkeyKongY < -400) {
             clearInterval(id);
-            $('.donkeyKong').css({ bottom: '-400px' });
+            $('.donkeyKong').css({bottom: '-400px'});
             bananeDone = true;
         } else if (!banana && donkeyKongY < posY) {
             donkeyKongY += 5;
@@ -444,25 +450,26 @@ releaseDonkeyKong = (posX, posY) => {
 ========================================================================== */
 function arrowDown(e) {
     // setImage('.character .img', 'foxRun')
-    if ((e.keyCode == KEYCODE_LEFT || $(e.target).hasClass('js-left')) && !lookAt[0]) {
+    if ((e.keyCode === KEYCODE_LEFT || $(e.target).hasClass('js-left')) && !lookAt[0]) {
         lookAt[0] = true;
         faceLeft = true;
-        $('.character .img__container').css({ transform: 'scale(1)' });
-    } else if ((e.keyCode == KEYCODE_RIGHT || $(e.target).hasClass('js-right')) && !lookAt[1]) {
+        $('.character .img__container').css({transform: 'scale(1)'});
+    } else if ((e.keyCode === KEYCODE_RIGHT || $(e.target).hasClass('js-right')) && !lookAt[1]) {
         lookAt[1] = true;
         faceLeft = false;
-        $('.character .img__container').css({ transform: 'scale(-1, 1)' });
+        $('.character .img__container').css({transform: 'scale(-1, 1)'});
     }
 }
+
 function arrowUp(e) {
     // setImage('.character .img', 'fox')
-    if (e.keyCode == KEYCODE_LEFT || $(e.target).hasClass('js-left')) lookAt[0] = false;
-    if (e.keyCode == KEYCODE_RIGHT || $(e.target).hasClass('js-right')) lookAt[1] = false;
+    if (e.keyCode === KEYCODE_LEFT || $(e.target).hasClass('js-left')) lookAt[0] = false;
+    if (e.keyCode === KEYCODE_RIGHT || $(e.target).hasClass('js-right')) lookAt[1] = false;
 }
 
 movementLoop = () => {
     if (lookAt[0] || lookAt[1]) {
-        $('.character .img__container').css({ 'margin-left': pos + 'px' });
+        $('.character .img__container').css({'margin-left': pos + 'px'});
         if (!isPlaying('key')) playSound('key', false);
     } else {
         if (isPlaying('key')) stopSound('key');
@@ -512,43 +519,43 @@ switchMode = () => {
         case 'kirby':
             $('.fa-kirby').show();
             $('.fa-starfox, .fa-mario').hide();
-            $('.label').css({ width: '35px' });
+            $('.label').css({width: '35px'});
             $('.label .ball').hide();
             $('.arrow-key-container .row.starfox').hide();
-            $('.arrow-key-container .row.kirby').css({ display: 'flex' });
-            $('.selfcounter__container').css({ color: '#FD9FD6' });
+            $('.arrow-key-container .row.kirby').css({display: 'flex'});
+            $('.selfcounter__container').css({color: '#FD9FD6'});
             setImage('.character .img', 'kirby');
             $('.counter__click .text').text('POYO!');
             text = 'poyo';
-            $('.character .img').css({ transform: 'scale(1)' });
+            $('.character .img').css({transform: 'scale(1)'});
             kirbyScale = 1;
             break;
         case 'mario':
             $('.fa-kirby').hide();
             $('.fa-starfox, .fa-mario').show();
-            $('.label').css({ width: '70px' });
+            $('.label').css({width: '70px'});
             $('.label .ball').show();
             $('.arrow-key-container .row.starfox').show();
             $('.arrow-key-container .row.kirby').hide();
-            $('.selfcounter__container').css({ color: '#D91430' });
+            $('.selfcounter__container').css({color: '#D91430'});
             setImage('.character .img', 'mario');
             $('.counter__click .text').text('YAHOO!');
             text = 'yahoo';
-            $('.character .img').css({ transform: 'scale(1)' });
+            $('.character .img').css({transform: 'scale(1)'});
             kirbyScale = 1;
             break;
         case 'starfox':
             $('.fa-kirby').hide();
             $('.fa-starfox, .fa-mario').show();
-            $('.label').css({ width: '70px' });
+            $('.label').css({width: '70px'});
             $('.label .ball').show();
             $('.arrow-key-container .row.starfox').show();
             $('.arrow-key-container .row.kirby').hide();
-            $('.selfcounter__container').css({ color: '#EB9B24' });
+            $('.selfcounter__container').css({color: '#EB9B24'});
             setImage('.character .img', 'fox');
             $('.counter__click .text').text('HIYAAA!');
             text = 'hiyaa';
-            $('.character .img').css({ transform: 'scale(1)' });
+            $('.character .img').css({transform: 'scale(1)'});
             kirbyScale = 1;
             break;
     }
@@ -560,7 +567,7 @@ switchMode();
 let fps = 0
 loop = () => {
     movementLoop();
-    if (fps == 7) {
+    if (fps === 7) {
         shieldLoop();
         fps = 0;
     }
@@ -575,9 +582,9 @@ init();
  * Cooldown
  */
 cooldown = debounce(function () {
-    if (currentClicks > 25 && mode == 'starfox')
+    if (currentClicks > 25 && mode === 'starfox')
         setImage('.character .img', 'fox');
-    if (currentClicks > 25 && mode == 'kirby')
+    if (currentClicks > 25 && mode === 'kirby')
         setImage('.character .img', 'kirby');
     currentClicks = 0;
     switchCount = 0;
@@ -596,13 +603,15 @@ function debounce(func, wait, immediate) {
         timeout = setTimeout(later, wait);
         if (callNow) func.apply(context, args);
     };
-};
+}
 
 /* Mobile
 ========================================================================== */
 isMobileOrTablet = () => {
     let check = false;
-    (function (a) { if (/(android|bb\d+|meego).+mobile|avantgo|bada\/|blackberry|blazer|compal|elaine|fennec|hiptop|iemobile|ip(hone|od)|iris|kindle|lge |maemo|midp|mmp|mobile.+firefox|netfront|opera m(ob|in)i|palm( os)?|phone|p(ixi|re)\/|plucker|pocket|psp|series(4|6)0|symbian|treo|up\.(browser|link)|vodafone|wap|windows ce|xda|xiino|android|ipad|playbook|silk/i.test(a) || /1207|6310|6590|3gso|4thp|50[1-6]i|770s|802s|a wa|abac|ac(er|oo|s\-)|ai(ko|rn)|al(av|ca|co)|amoi|an(ex|ny|yw)|aptu|ar(ch|go)|as(te|us)|attw|au(di|\-m|r |s )|avan|be(ck|ll|nq)|bi(lb|rd)|bl(ac|az)|br(e|v)w|bumb|bw\-(n|u)|c55\/|capi|ccwa|cdm\-|cell|chtm|cldc|cmd\-|co(mp|nd)|craw|da(it|ll|ng)|dbte|dc\-s|devi|dica|dmob|do(c|p)o|ds(12|\-d)|el(49|ai)|em(l2|ul)|er(ic|k0)|esl8|ez([4-7]0|os|wa|ze)|fetc|fly(\-|_)|g1 u|g560|gene|gf\-5|g\-mo|go(\.w|od)|gr(ad|un)|haie|hcit|hd\-(m|p|t)|hei\-|hi(pt|ta)|hp( i|ip)|hs\-c|ht(c(\-| |_|a|g|p|s|t)|tp)|hu(aw|tc)|i\-(20|go|ma)|i230|iac( |\-|\/)|ibro|idea|ig01|ikom|im1k|inno|ipaq|iris|ja(t|v)a|jbro|jemu|jigs|kddi|keji|kgt( |\/)|klon|kpt |kwc\-|kyo(c|k)|le(no|xi)|lg( g|\/(k|l|u)|50|54|\-[a-w])|libw|lynx|m1\-w|m3ga|m50\/|ma(te|ui|xo)|mc(01|21|ca)|m\-cr|me(rc|ri)|mi(o8|oa|ts)|mmef|mo(01|02|bi|de|do|t(\-| |o|v)|zz)|mt(50|p1|v )|mwbp|mywa|n10[0-2]|n20[2-3]|n30(0|2)|n50(0|2|5)|n7(0(0|1)|10)|ne((c|m)\-|on|tf|wf|wg|wt)|nok(6|i)|nzph|o2im|op(ti|wv)|oran|owg1|p800|pan(a|d|t)|pdxg|pg(13|\-([1-8]|c))|phil|pire|pl(ay|uc)|pn\-2|po(ck|rt|se)|prox|psio|pt\-g|qa\-a|qc(07|12|21|32|60|\-[2-7]|i\-)|qtek|r380|r600|raks|rim9|ro(ve|zo)|s55\/|sa(ge|ma|mm|ms|ny|va)|sc(01|h\-|oo|p\-)|sdk\/|se(c(\-|0|1)|47|mc|nd|ri)|sgh\-|shar|sie(\-|m)|sk\-0|sl(45|id)|sm(al|ar|b3|it|t5)|so(ft|ny)|sp(01|h\-|v\-|v )|sy(01|mb)|t2(18|50)|t6(00|10|18)|ta(gt|lk)|tcl\-|tdg\-|tel(i|m)|tim\-|t\-mo|to(pl|sh)|ts(70|m\-|m3|m5)|tx\-9|up(\.b|g1|si)|utst|v400|v750|veri|vi(rg|te)|vk(40|5[0-3]|\-v)|vm40|voda|vulc|vx(52|53|60|61|70|80|81|83|85|98)|w3c(\-| )|webc|whit|wi(g |nc|nw)|wmlb|wonu|x700|yas\-|your|zeto|zte\-/i.test(a.substr(0, 4))) check = true; })(navigator.userAgent || navigator.vendor || window.opera);
+    (function (a) {
+        if (/(android|bb\d+|meego).+mobile|avantgo|bada\/|blackberry|blazer|compal|elaine|fennec|hiptop|iemobile|ip(hone|od)|iris|kindle|lge |maemo|midp|mmp|mobile.+firefox|netfront|opera m(ob|in)i|palm( os)?|phone|p(ixi|re)\/|plucker|pocket|psp|series(4|6)0|symbian|treo|up\.(browser|link)|vodafone|wap|windows ce|xda|xiino|android|ipad|playbook|silk/i.test(a) || /1207|6310|6590|3gso|4thp|50[1-6]i|770s|802s|a wa|abac|ac(er|oo|s\-)|ai(ko|rn)|al(av|ca|co)|amoi|an(ex|ny|yw)|aptu|ar(ch|go)|as(te|us)|attw|au(di|\-m|r |s )|avan|be(ck|ll|nq)|bi(lb|rd)|bl(ac|az)|br(e|v)w|bumb|bw\-(n|u)|c55\/|capi|ccwa|cdm\-|cell|chtm|cldc|cmd\-|co(mp|nd)|craw|da(it|ll|ng)|dbte|dc\-s|devi|dica|dmob|do(c|p)o|ds(12|\-d)|el(49|ai)|em(l2|ul)|er(ic|k0)|esl8|ez([4-7]0|os|wa|ze)|fetc|fly(\-|_)|g1 u|g560|gene|gf\-5|g\-mo|go(\.w|od)|gr(ad|un)|haie|hcit|hd\-(m|p|t)|hei\-|hi(pt|ta)|hp( i|ip)|hs\-c|ht(c(\-| |_|a|g|p|s|t)|tp)|hu(aw|tc)|i\-(20|go|ma)|i230|iac( |\-|\/)|ibro|idea|ig01|ikom|im1k|inno|ipaq|iris|ja(t|v)a|jbro|jemu|jigs|kddi|keji|kgt( |\/)|klon|kpt |kwc\-|kyo(c|k)|le(no|xi)|lg( g|\/(k|l|u)|50|54|\-[a-w])|libw|lynx|m1\-w|m3ga|m50\/|ma(te|ui|xo)|mc(01|21|ca)|m\-cr|me(rc|ri)|mi(o8|oa|ts)|mmef|mo(01|02|bi|de|do|t(\-| |o|v)|zz)|mt(50|p1|v )|mwbp|mywa|n10[0-2]|n20[2-3]|n30(0|2)|n50(0|2|5)|n7(0(0|1)|10)|ne((c|m)\-|on|tf|wf|wg|wt)|nok(6|i)|nzph|o2im|op(ti|wv)|oran|owg1|p800|pan(a|d|t)|pdxg|pg(13|\-([1-8]|c))|phil|pire|pl(ay|uc)|pn\-2|po(ck|rt|se)|prox|psio|pt\-g|qa\-a|qc(07|12|21|32|60|\-[2-7]|i\-)|qtek|r380|r600|raks|rim9|ro(ve|zo)|s55\/|sa(ge|ma|mm|ms|ny|va)|sc(01|h\-|oo|p\-)|sdk\/|se(c(\-|0|1)|47|mc|nd|ri)|sgh\-|shar|sie(\-|m)|sk\-0|sl(45|id)|sm(al|ar|b3|it|t5)|so(ft|ny)|sp(01|h\-|v\-|v )|sy(01|mb)|t2(18|50)|t6(00|10|18)|ta(gt|lk)|tcl\-|tdg\-|tel(i|m)|tim\-|t\-mo|to(pl|sh)|ts(70|m\-|m3|m5)|tx\-9|up(\.b|g1|si)|utst|v400|v750|veri|vi(rg|te)|vk(40|5[0-3]|\-v)|vm40|voda|vulc|vx(52|53|60|61|70|80|81|83|85|98)|w3c(\-| )|webc|whit|wi(g |nc|nw)|wmlb|wonu|x700|yas\-|your|zeto|zte\-/i.test(a.substr(0, 4))) check = true;
+    })(navigator.userAgent || navigator.vendor || window.opera);
     return check;
 };
 
@@ -643,20 +652,18 @@ oo     .d8P   888 . d8(  888   888      888         888   888  .o8"'88b
 `;
 
 function getCharacters(art) {
-    var i = art.length;
-    var i_letter = 0;
-    var s = '';
-    var characters = [];
+    let i = art.length;
+    let i_letter = 0;
+    let s = '';
+    let characters = [];
     do {
         i = (i + 1) % art.length;
-        var c = art[i];
+        let c = art[i];
 
-        var isWhitespace = /\s/.test(c);
+        let isWhitespace = /\s/.test(c);
         if (isWhitespace) {
             s += c;
-            continue;
-        }
-        else {
+        } else {
             if (s.length > 0) {
                 c = s + c;
                 s = '';
@@ -669,9 +676,10 @@ function getCharacters(art) {
     return characters;
 }
 
-var characters = getCharacters(art);
+const characters = getCharacters(art);
 
-var output = '';
+let output = '';
+
 function printCharacterByIndex(characters, index, delay) {
     if (characters[index] === undefined) return;
     output += characters[index];
@@ -679,5 +687,6 @@ function printCharacterByIndex(characters, index, delay) {
     console.log('%c ' + output, "font-family:monospace;color: red;")
     window.setTimeout(printCharacterByIndex.bind(null, characters, index + 1, delay), delay);
 }
+
 // console.clear();
 // printCharacterByIndex(getCharacters(art), 0, 50);
