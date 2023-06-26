@@ -37,8 +37,6 @@ services:
       - "traefik.http.services.starfox-svc.loadbalancer.server.port=8081"
     network_mode: bridge
     restart: unless-stopped
-    depends_on:
-      - starfox-db
 
   starfox-db:
     container_name: starfox-db
@@ -48,10 +46,6 @@ services:
     image: 'starfox-db:latest'
     ports:
       - '${DB_PORT}:${DB_PORT}'
-    healthcheck:
-      test: mysqladmin ping --silent
-      retries: 3
-      timeout: 3s
     environment:
       - ACCEPT_EULA=Y
       - PID=Developer
