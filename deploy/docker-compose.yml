@@ -46,6 +46,10 @@ services:
     image: 'starfox-db:latest'
     ports:
       - '${DB_PORT}:${DB_PORT}'
+    healthcheck:
+      test: mariadb -uroot -p'${MARIADB_ROOT_PASSWORD}' -e 'SELECT 1'
+      retries: 3
+      timeout: 3s
     environment:
       - ACCEPT_EULA=Y
       - PID=Developer
