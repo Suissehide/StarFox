@@ -57,8 +57,8 @@ services:
       - MARIADB_DATABASE=${DB_NAME}
       - MARIADB_PORT=${DB_PORT}
     volumes:
-      # - $DOCKERDIR/appdata/mariadb/data:/config
-      - dbdata:/var/lib/mysql
+      - $DOCKERDIR/appdata/mariadb/data:/var/lib/mysql
+      # - dbdata:/var/lib/mysql
       - ./database/dump.sql:/docker-entrypoint-initdb.d/dump.sql
     network_mode: bridge
     restart: unless-stopped
