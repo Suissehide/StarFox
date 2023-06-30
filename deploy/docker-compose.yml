@@ -27,13 +27,21 @@ services:
       - NODE_TLS_REJECT_UNAUTHORIZED
       - PORT
       - DB_HOST=starfox-db
+    volumes:
+      - $DOCKERDIR/appdata/traefik/rules:/rules
     labels:
       - "traefik.enable=true"
       ## HTTP Routers
+      - "traefik.http.routers.starfox-http.entrypoints=http"
+      - "traefik.http.routers.starfox-http.rule=Host(`${TRAEFIK_STARFOX_BACKEND_VIRTUAL_HOST:-starfox-backend.local}`)"
+
       - "traefik.http.routers.starfox-app.entrypoints=https"
       - "traefik.http.routers.starfox-app.rule=Host(`${TRAEFIK_STARFOX_BACKEND_VIRTUAL_HOST:-starfox-backend.local}`)"
+      ## Middlewares
+      - "traefik.http.routers.starfox-http.middlewares=chain-no-auth@file"
+      - "traefik.http.routers.starfox-app.middlewares=chain-no-auth@file"
       ## HTTP Services
-      - "traefik.http.routers.starfox-rtr.service=starfox-svc"
+      - "traefik.http.routers.starfox-app.service=starfox-svc"
       - "traefik.http.services.starfox-svc.loadbalancer.server.port=8081"
     network_mode: bridge
     restart: unless-stopped
