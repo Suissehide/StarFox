@@ -38,7 +38,7 @@ function scheduleReconnect() {
     setTimeout(() => {
         console.log('Reconnecting to DB...');
         con = createConnection();
-    }, 2000);
+    }, 2000).unref(); // .unref() so tests and the process can exit cleanly
 }
 
 /**
