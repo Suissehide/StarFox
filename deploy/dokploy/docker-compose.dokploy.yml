@@ -6,8 +6,8 @@ services:
       dockerfile: deploy/app/Dockerfile
       target: app
       args:
-        NODE_VERSION: ${NODE_VERSION}
-        NPM_VERSION: ${NPM_VERSION}
+        NODE_VERSION: ${NODE_VERSION:-24}
+        NPM_VERSION: ${NPM_VERSION:-10}
     image: ${APP_IMAGE_NAME:-starfox}:${VERSION:-latest}
     environment:
       - DB_HOST=db
@@ -23,15 +23,13 @@ services:
   db:
     image: mariadb:11.0.2-jammy
     environment:
-      - MARIADB_ROOT_PASSWORD=${MARIADB_ROOT_PASSWORD}
+      - MARIADB_ROOT_PASSWORD=${DB_PASSWORD}
       - MARIADB_DATABASE=${DB_NAME}
-      - MARIADB_USER=${DB_USERNAME}
-      - MARIADB_PASSWORD=${DB_PASSWORD}
     volumes:
       - db:/var/lib/mysql
       - ../database/dump.sql:/docker-entrypoint-initdb.d/dump.sql
     healthcheck:
-      test: ["CMD", "mariadb", "-u", "${DB_USERNAME}", "-p${DB_PASSWORD}", "${DB_NAME}", "-e", "SELECT 1"]
+      test: ["CMD", "healthcheck.sh", "--connect", "--innodb_initialized"]
       interval: 10s
       retries: 5
       timeout: 5s
