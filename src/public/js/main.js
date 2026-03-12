@@ -136,31 +136,19 @@ if (navigator.maxTouchPoints > 0) {
 // Volume widget
 const savedVolume = parseFloat(localStorage.getItem('volume') ?? '1');
 const volumeSlider = document.querySelector('.volume-slider');
-const volumeBtn    = document.querySelector('.volume-btn');
+
+function applyVolume(v) {
+    volumeSlider.style.setProperty('--vol', Math.round(v * 100));
+    setVolume(v);
+}
 
 volumeSlider.value = String(savedVolume);
-setVolume(savedVolume);
-
-function updateVolumeIcon(v) {
-    volumeBtn.textContent = v === 0 ? '🔇' : v < 0.4 ? '🔉' : '🔊';
-}
-updateVolumeIcon(savedVolume);
+applyVolume(savedVolume);
 
 volumeSlider.addEventListener('input', () => {
     const v = parseFloat(volumeSlider.value);
-    setVolume(v);
+    applyVolume(v);
     localStorage.setItem('volume', String(v));
-    updateVolumeIcon(v);
-});
-
-volumeBtn.addEventListener('click', () => {
-    const current = parseFloat(volumeSlider.value);
-    const next = current > 0 ? 0 : parseFloat(localStorage.getItem('volume-before-mute') ?? '1');
-    if (current > 0) localStorage.setItem('volume-before-mute', String(current));
-    volumeSlider.value = String(next);
-    setVolume(next);
-    localStorage.setItem('volume', String(next));
-    updateVolumeIcon(next);
 });
 
 setInterval(loop, 10);

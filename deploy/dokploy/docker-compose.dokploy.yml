@@ -1,0 +1,41 @@
+services:
+
+  app:
+    build:
+      context: ../..
+      dockerfile: deploy/app/Dockerfile
+      target: app
+      args:
+        NODE_VERSION: ${NODE_VERSION}
+        NPM_VERSION: ${NPM_VERSION}
+    image: ${APP_IMAGE_NAME:-starfox}:${VERSION:-latest}
+    environment:
+      - DB_HOST=db
+      - DB_PORT=${DB_PORT:-3306}
+      - DB_USERNAME=${DB_USERNAME}
+      - DB_PASSWORD=${DB_PASSWORD}
+      - DB_NAME=${DB_NAME}
+    depends_on:
+      db:
+        condition: service_healthy
+    restart: unless-stopped
+
+  db:
+    image: mariadb:11.0.2-jammy
+    environment:
+      - MARIADB_ROOT_PASSWORD=${MARIADB_ROOT_PASSWORD}
+      - MARIADB_DATABASE=${DB_NAME}
+      - MARIADB_USER=${DB_USERNAME}
+      - MARIADB_PASSWORD=${DB_PASSWORD}
+    volumes:
+      - db:/var/lib/mysql
+      - ../database/dump.sql:/docker-entrypoint-initdb.d/dump.sql
+    healthcheck:
+      test: ["CMD", "mariadb", "-u", "${DB_USERNAME}", "-p${DB_PASSWORD}", "${DB_NAME}", "-e", "SELECT 1"]
+      interval: 10s
+      retries: 5
+      timeout: 5s
+    restart: unless-stopped
+
+volumes:
+  db:

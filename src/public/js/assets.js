@@ -56,7 +56,9 @@ export function getImage(id) {
 export function playSound(id, clone) {
     if (!soundsLoaded) return;
     if (clone) {
-        sounds[id].cloneNode(true).play();
+        const c = sounds[id].cloneNode(true);
+        c.volume = sounds[id].volume; // cloneNode doesn't copy .volume property
+        c.play();
     } else {
         sounds[id].play();
     }
