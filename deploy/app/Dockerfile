@@ -11,7 +11,7 @@ RUN npm i -g npm@${NPM_VERSION}
 FROM node-npm AS app-base
 WORKDIR /usr/src/app
 COPY package*.json ./
-RUN npm ci --prefer-offline --dev --ignore-scripts
+RUN npm ci --prefer-offline --ignore-scripts
 
 # Build application dist
 FROM app-base AS app-build
@@ -35,5 +35,5 @@ RUN true
 COPY --from=app-build /usr/src/app/.env/ ./
 RUN true
 COPY --from=app-build /usr/src/app/src/ ./src
-EXPOSE 3000
+EXPOSE 8080
 CMD ["node", "src/server"]
