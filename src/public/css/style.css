@@ -448,3 +448,36 @@ button::-moz-focus-inner {
 .share .twitter:hover {
     color: #00acee;
 }
+
+/* Volume widget */
+.volume-widget {
+    position: fixed;
+    bottom: 16px;
+    left: 16px;
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    z-index: 10;
+    background: rgba(240, 240, 240, 0.85);
+    border-radius: 20px;
+    padding: 4px 10px 4px 6px;
+    backdrop-filter: blur(4px);
+}
+
+.volume-btn {
+    font-size: 18px;
+    line-height: 1;
+    padding: 0;
+    opacity: 0.75;
+    transition: opacity 0.15s;
+}
+
+.volume-btn:hover {
+    opacity: 1;
+}
+
+.volume-slider {
+    width: 70px;
+    accent-color: #EB9B24;
+    cursor: pointer;
+}

@@ -1,4 +1,4 @@
-import { loadAssets } from './assets.js';
+import { loadAssets, setVolume } from './assets.js';
 import { setClicks, setLocalClicks, updateUser, switchMode, setCharacterImage } from './ui.js';
 import { initSocket, emitClick } from './socket.js';
 import { initInput, movementLoop, KEY } from './input.js';
@@ -133,5 +133,35 @@ if (navigator.maxTouchPoints > 0) {
     document.querySelector('.arrow-key-container').style.display = 'none';
     document.querySelector('.banana-btn').style.display = 'none';
 }
+
+// Volume widget
+const savedVolume = parseFloat(localStorage.getItem('volume') ?? '1');
+const volumeSlider = document.querySelector('.volume-slider');
+const volumeBtn    = document.querySelector('.volume-btn');
+
+volumeSlider.value = String(savedVolume);
+setVolume(savedVolume);
+
+function updateVolumeIcon(v) {
+    volumeBtn.textContent = v === 0 ? '🔇' : v < 0.4 ? '🔉' : '🔊';
+}
+updateVolumeIcon(savedVolume);
+
+volumeSlider.addEventListener('input', () => {
+    const v = parseFloat(volumeSlider.value);
+    setVolume(v);
+    localStorage.setItem('volume', String(v));
+    updateVolumeIcon(v);
+});
+
+volumeBtn.addEventListener('click', () => {
+    const current = parseFloat(volumeSlider.value);
+    const next = current > 0 ? 0 : parseFloat(localStorage.getItem('volume-before-mute') ?? '1');
+    if (current > 0) localStorage.setItem('volume-before-mute', String(current));
+    volumeSlider.value = String(next);
+    setVolume(next);
+    localStorage.setItem('volume', String(next));
+    updateVolumeIcon(next);
+});
 
 setInterval(loop, 10);

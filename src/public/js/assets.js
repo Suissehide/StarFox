@@ -72,3 +72,18 @@ export function isPlaying(id) {
     if (!soundsLoaded) return false;
     return !(sounds[id].paused && sounds[id].currentTime === 0);
 }
+
+/**
+ * Sets the global volume for all sounds (0.0–1.0).
+ * Applies immediately to all loaded audio nodes.
+ */
+export function setVolume(value) {
+    const v = Math.max(0, Math.min(1, value));
+    Object.values(sounds).forEach((audio) => { audio.volume = v; });
+}
+
+export function getVolume() {
+    // Returns the current volume of the first sound node, or 1 as default.
+    const first = Object.values(sounds)[0];
+    return first ? first.volume : 1;
+}
