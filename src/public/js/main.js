@@ -75,7 +75,7 @@ initSocket({
 });
 
 initInput({
-    onKeyDown:   (e) => currentCharacter.onKeyDown(e, currentClicks),
+    onKeyDown:   (e) => { currentCharacter.onKeyDown(e, currentClicks); createText(text, faceLeft); },
     onKeyUp:     (e) => currentCharacter.onKeyUp(e, currentClicks),
     onArrowDown: (e) => {
         // Update facing direction and flip character sprite
@@ -92,7 +92,6 @@ initInput({
         setLocalClicks(localClicks);
         localStorage.setItem('clicks', String(localClicks));
         cooldown();
-        createText(text, faceLeft);
     },
 });
 
