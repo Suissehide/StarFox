@@ -54,10 +54,14 @@ function toggleSidebar() {
 }
 
 // ── Game loop ────────────────────────────────────────────────────────────────
-function loop() {
-    movementLoop();
-    if (fps === 7) { currentCharacter.shieldLoop(); fps = 0; }
+let _lastTime = 0;
+function loop(timestamp) {
+    const dt = _lastTime ? Math.min(timestamp - _lastTime, 50) : 16;
+    _lastTime = timestamp;
+    movementLoop(dt, faceLeft);
+    if (fps === 4) { currentCharacter.shieldLoop(); fps = 0; }
     fps++;
+    requestAnimationFrame(loop);
 }
 
 // ── Initialisation ──────────────────────────────────────────────────────────
@@ -78,10 +82,8 @@ initInput({
     onKeyDown:   (e) => { currentCharacter.onKeyDown(e, currentClicks); createText(text, faceLeft); },
     onKeyUp:     (e) => currentCharacter.onKeyUp(e, currentClicks),
     onArrowDown: (e) => {
-        // Update facing direction and flip character sprite
+        // Update facing direction — movementLoop applies the flip each frame.
         faceLeft = e.keyCode === KEY.LEFT || (e.target?.classList?.contains('js-left') ?? false);
-        document.querySelector('.character .img__container').style.transform =
-            faceLeft ? 'scale(1)' : 'scale(-1, 1)';
     },
     onArrowUp: (_e) => { /* lookAt.left/right handled in input.js; no side-effect needed here */ },
     onEmitClick: () => {
@@ -125,10 +127,11 @@ document.querySelector('.share-btn')?.addEventListener('click', () => {
 // Sidebar toggle
 document.querySelector('.header .btn-round').addEventListener('click', toggleSidebar);
 
-// Mobile: hide keyboard controls on touch devices.
-// navigator.maxTouchPoints > 0 replaces the original 1400-char UA regex.
-// Trade-off: some touchscreen laptops also hide controls. Accepted — see spec.
-if (navigator.maxTouchPoints > 0) {
+// Hide keyboard controls on touch-only devices (phones/tablets).
+// (hover: none) is accurate: touchscreen laptops still have hover via mouse,
+// so they keep the controls. navigator.maxTouchPoints > 0 was too aggressive
+// — Windows Chrome reports 10 even on non-touch desktops.
+if (!window.matchMedia('(hover: hover)').matches) {
     document.querySelector('.arrow-key-container').style.display = 'none';
     document.querySelector('.banana-btn').style.display = 'none';
 }
@@ -151,4 +154,4 @@ volumeSlider.addEventListener('input', () => {
     localStorage.setItem('volume', String(v));
 });
 
-setInterval(loop, 10);
+requestAnimationFrame(loop);

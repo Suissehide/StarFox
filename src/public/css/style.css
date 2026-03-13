@@ -187,7 +187,7 @@ button::-moz-focus-inner {
     height: 400px;
     width: 400px;
     margin-left: calc(-200px + 50%);
-    transition: margin-left 0.1s cubic-bezier(0, 0, 0, 1);;
+    will-change: transform;
 }
 
 .character .img {
@@ -325,6 +325,28 @@ button::-moz-focus-inner {
 
     .counter__user {
         font-size: 10px;
+    }
+
+    .img__container,
+    .character .img {
+        height: 280px;
+        width: 280px;
+    }
+
+    .img__container {
+        margin-left: calc(-140px + 50%);
+    }
+}
+
+@media (max-width: 380px) {
+    .img__container,
+    .character .img {
+        height: 220px;
+        width: 220px;
+    }
+
+    .img__container {
+        margin-left: calc(-110px + 50%);
     }
 }
 

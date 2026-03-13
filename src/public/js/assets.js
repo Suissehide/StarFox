@@ -30,6 +30,21 @@ const manifest = [
 let soundsLoaded = false;
 const sounds = {};
 
+// Pool of pre-created clones for sounds played with clone=true (avoids
+// creating a new Audio node on every keypress, which is expensive on mobile).
+const POOL_SIZE = 4;
+const pools = {}; // id → { nodes: Audio[], index: number }
+
+function buildPool(id) {
+    const nodes = [];
+    for (let i = 0; i < POOL_SIZE; i++) {
+        const c = sounds[id].cloneNode(true);
+        c.volume = sounds[id].volume;
+        nodes.push(c);
+    }
+    pools[id] = { nodes, index: 0 };
+}
+
 export function loadAssets() {
     manifest.forEach((item) => {
         if (item.type === 'sound') {
@@ -40,6 +55,8 @@ export function loadAssets() {
             sounds[item.id] = audio;
         }
     });
+    // Pre-build pools for all sounds used with clone=true.
+    ['hiyaaa', 'yahoo', 'poyo'].forEach(buildPool);
     soundsLoaded = true;
 }
 
@@ -56,9 +73,11 @@ export function getImage(id) {
 export function playSound(id, clone) {
     if (!soundsLoaded) return;
     if (clone) {
-        const c = sounds[id].cloneNode(true);
-        c.volume = sounds[id].volume; // cloneNode doesn't copy .volume property
-        c.play();
+        const pool = pools[id];
+        const node = pool.nodes[pool.index];
+        pool.index = (pool.index + 1) % POOL_SIZE;
+        node.currentTime = 0;
+        node.play();
     } else {
         sounds[id].play();
     }
@@ -82,6 +101,7 @@ export function isPlaying(id) {
 export function setVolume(value) {
     const v = Math.max(0, Math.min(1, value));
     Object.values(sounds).forEach((audio) => { audio.volume = v; });
+    Object.values(pools).forEach(({ nodes }) => nodes.forEach((n) => { n.volume = v; }));
 }
 
 export function getVolume() {

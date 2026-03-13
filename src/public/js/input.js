@@ -9,7 +9,11 @@ export const KEY = { LEFT: 37, UP: 38, RIGHT: 39, DOWN: 40, A: 65, B: 66 };
  */
 export const lookAt = { left: false, right: false, down: false };
 
-let pos = (window.innerWidth / 2) - 200; // horizontal character position, pixels
+// Offset from CSS-centered position (0 = center). Using transform: translateX
+// instead of marginLeft avoids layout reflow on every frame.
+let pos = 0;
+const rightBound =  (window.innerWidth / 2) - 175; // equiv. to abs. bound: innerWidth - 375
+const leftBound  = -((window.innerWidth / 2) - 175);
 let lastKey = 0;
 let _cb = {};
 
@@ -74,22 +78,30 @@ export function initInput(callbacks) {
     document.querySelector('.container').addEventListener('pointerup', handleUp);
 }
 
+let _container = null;
+
+const SPEED = 2500; // px/sec (equivalent to the original 25px per 10ms)
+
 /**
- * Called every 10ms from the game loop.
- * Moves the character horizontally and controls the walk sound.
+ * Called each animation frame from the game loop.
+ * dt: time elapsed since last frame in milliseconds.
+ * faceLeft: current facing direction (from main.js).
+ * Uses transform: translateX for GPU-composited movement (no layout reflow).
  */
-export function movementLoop() {
-    const container = document.querySelector('.character .img__container');
+export function movementLoop(dt, faceLeft) {
+    if (!_container) _container = document.querySelector('.character .img__container');
+    const step = SPEED * dt / 1000;
+
+    // Single transform: combines position offset + horizontal flip.
+    const scaleX = faceLeft ? 1 : -1;
+    _container.style.transform = `translateX(${pos}px) scale(${scaleX}, 1)`;
+
     if (lookAt.left || lookAt.right) {
-        container.style.marginLeft = pos + 'px';
         if (!isPlaying('key')) playSound('key', false);
     } else {
         if (isPlaying('key')) stopSound('key');
     }
 
-    if (lookAt.right) {
-        pos = Math.min(pos + 25, window.innerWidth - 375);
-    } else if (lookAt.left) {
-        pos = Math.max(pos - 25, -25);
-    }
+    if (lookAt.right)     pos = Math.min(pos + step, rightBound);
+    else if (lookAt.left) pos = Math.max(pos - step, leftBound);
 }

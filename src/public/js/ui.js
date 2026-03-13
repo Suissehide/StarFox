@@ -58,7 +58,7 @@ export function switchMode(mode) {
     charImg.style.transform = 'scale(1)';
 
     if (mode === 'kirby') {
-        faKirby.style.display    = '';
+        faKirby.style.display    = 'block';
         faStarfox.style.display  = 'none';
         faMario.style.display    = 'none';
         label.style.width        = '35px';
